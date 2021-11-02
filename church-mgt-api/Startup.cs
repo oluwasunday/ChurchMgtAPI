@@ -1,9 +1,12 @@
 using church_mgt_api.extensions;
 using church_mgt_api.Extensions;
+using church_mgt_core.services.implementations;
+using church_mgt_core.services.interfaces;
 using church_mgt_database;
 using church_mgt_database.seeder;
 using church_mgt_models;
 using church_mgt_utilities;
+using church_mgt_utilities.Settings;
 using FluentValidation.AspNetCore;
 using HotelMgt.API.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +61,16 @@ namespace church_mgt_api
 
             // configure Automapper
             services.AddAutoMapper(typeof(AutoMaps));
+
+            // configure mail service
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IEmailService, EmailService>();
+
+            // configure CORS for mail service
+            services.AddCors(cors =>
+            {
+                cors.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

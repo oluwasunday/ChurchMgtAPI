@@ -3,6 +3,7 @@ using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace church_mgt_api.Controllers
@@ -12,10 +13,12 @@ namespace church_mgt_api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEmailService _mailService;
 
-        public AuthController(IAuthenticationService authenticationService)
+        public AuthController(IAuthenticationService authenticationService, IEmailService mailService)
         {
             _authenticationService = authenticationService;
+            _mailService = mailService;
         }
 
         [HttpPost("register")]
@@ -32,6 +35,24 @@ namespace church_mgt_api.Controllers
         {
             var result = await _authenticationService.LoginUserAsync(loginDto);
             return StatusCode(result.StatusCode, result);
+        }
+
+        // base-url/Auth/sendmail
+        [HttpPost]
+        [Route("send-mail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendMail([FromForm] MailRequestDto model)
+        {
+            try
+            {
+                var result = await _mailService.SendEmailAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new[] { ex.Message, ex.StackTrace });
+            }
+
         }
     }
 }
