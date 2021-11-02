@@ -1,21 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-api", "church-mgt-api\church-mgt-api.csproj", "{6A31FACB-D331-4F38-8A58-7F3663C91630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-api", "church-mgt-api\church-mgt-api.csproj", "{6A31FACB-D331-4F38-8A58-7F3663C91630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-core", "church-mgt-core\church-mgt-core.csproj", "{CD7B70FD-9FC9-46B6-927B-96F83AF359E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-core", "church-mgt-core\church-mgt-core.csproj", "{CD7B70FD-9FC9-46B6-927B-96F83AF359E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-database", "church-mgt-database\church-mgt-database.csproj", "{FD54840A-ED31-4152-A4E1-112DA9C39D28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-database", "church-mgt-database\church-mgt-database.csproj", "{FD54840A-ED31-4152-A4E1-112DA9C39D28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-utilities", "church-mgt-utilities\church-mgt-utilities.csproj", "{887ECD7E-9A77-4962-B0EA-CDF6D4007B2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-utilities", "church-mgt-utilities\church-mgt-utilities.csproj", "{887ECD7E-9A77-4962-B0EA-CDF6D4007B2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-models", "church-mgt-models\church-mgt-models.csproj", "{6734CE2E-D94C-4297-BEA8-B7FBA6316830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-models", "church-mgt-models\church-mgt-models.csproj", "{6734CE2E-D94C-4297-BEA8-B7FBA6316830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-test", "church-mgt-test\church-mgt-test.csproj", "{2C0307E8-887F-42C7-AC51-014530340EDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-test", "church-mgt-test\church-mgt-test.csproj", "{2C0307E8-887F-42C7-AC51-014530340EDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "church-mgt-dtos", "church-mgt-dtos\church-mgt-dtos.csproj", "{19062CFC-2E16-44AC-BDC6-2A84170544D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "church-mgt-dtos", "church-mgt-dtos\church-mgt-dtos.csproj", "{19062CFC-2E16-44AC-BDC6-2A84170544D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

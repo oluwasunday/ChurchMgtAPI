@@ -3,6 +3,7 @@ using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -14,11 +15,13 @@ namespace church_mgt_api.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IEmailService _mailService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IAuthenticationService authenticationService, IEmailService mailService)
+        public AuthController(IAuthenticationService authenticationService, IEmailService mailService, IConfiguration configuration)
         {
             _authenticationService = authenticationService;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -37,6 +40,22 @@ namespace church_mgt_api.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
+        [HttpGet("confirm-email")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            try
+            {
+                var result = await _authenticationService.ConfirmEmailAsync(email, token);
+                return Redirect($"{_configuration["BaseUrl"]}/confirmemail.html");
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            
+        }
+
         // base-url/Auth/sendmail
         [HttpPost]
         [Route("send-mail")]
@@ -53,6 +72,24 @@ namespace church_mgt_api.Controllers
                 return BadRequest(new[] { ex.Message, ex.StackTrace });
             }
 
+        }
+
+        // base-url/Auth/forgotpassword
+        [HttpPost]
+        [Route("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var result = await _authenticationService.ForgotPasswordAsync(email);
+            return StatusCode(result.StatusCode, result);
+        }
+
+        // base-url/Auth/reset-password
+        [HttpPost]
+        [Route("resetpassword")]
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordDto model)
+        {
+            var result = await _authenticationService.ResetPasswordAsync(model);
+            return StatusCode(result.StatusCode, result);
         }
     }
 }
