@@ -71,6 +71,8 @@ namespace church_mgt_api
             {
                 cors.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
+
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +90,7 @@ namespace church_mgt_api
             ChurchMgtSeeder.SeedData(dbContext, userManager, roleManager).GetAwaiter().GetResult();
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -96,6 +99,7 @@ namespace church_mgt_api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
         }
