@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
+using church_mgt_dtos.CommentDto;
 using church_mgt_models;
 using System;
 
@@ -18,6 +19,9 @@ namespace church_mgt_utilities
                 .ForMember(dest => dest.Age,
                     opt => opt.MapFrom(src => src.DOB.GetCurrentAge())
                 );
+
+            // comments
+            CreateMap<Comment, CommentResponseDto>().ReverseMap();
         }
     }
 }

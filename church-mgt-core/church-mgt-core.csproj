@@ -31,10 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UnitOfWork\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\church-mgt-database\church-mgt-database.csproj" />
     <ProjectReference Include="..\church-mgt-dtos\church-mgt-dtos.csproj" />
     <ProjectReference Include="..\church-mgt-models\church-mgt-models.csproj" />
     <ProjectReference Include="..\church-mgt-utilities\church-mgt-utilities.csproj" />
