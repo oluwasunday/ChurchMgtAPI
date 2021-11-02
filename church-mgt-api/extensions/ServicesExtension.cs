@@ -15,7 +15,7 @@ namespace HotelMgt.API.Extensions
         public static void AddDependencyInjection(this IServiceCollection services)
         {
 
-            // Add Repository Injections Here
+            // Add Repository Injections Here 
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
