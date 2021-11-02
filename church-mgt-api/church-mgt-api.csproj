@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="CloudinaryDotNet" Version="1.15.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
@@ -32,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\church-mgt-core\church-mgt-core.csproj" />
     <ProjectReference Include="..\church-mgt-database\church-mgt-database.csproj" />
+    <ProjectReference Include="..\church-mgt-utilities\church-mgt-utilities.csproj" />
   </ItemGroup>
 
 </Project>
