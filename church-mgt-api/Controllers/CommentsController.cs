@@ -1,5 +1,6 @@
 ﻿using church_mgt_core.services.interfaces;
 using church_mgt_models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,6 +24,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string comment)
         {
             var user = await _userManager.GetUserAsync(User);
