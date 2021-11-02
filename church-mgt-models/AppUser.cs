@@ -21,7 +21,7 @@ namespace church_mgt_models
         public DateTime UpdatedAt { get; set; }
         public string MaritalStatus { get; set; }
         public string Occupation { get; set; }
-        public string Avatar { get; set; }
+        public string Avatar { get; set; } = "default.jpg";
         public string PublicId { get; set; } 
 
         public ICollection<Testimony> Testimonies { get; set; }

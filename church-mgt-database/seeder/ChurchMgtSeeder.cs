@@ -43,6 +43,7 @@ namespace church_mgt_database.seeder
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                     EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
                     PublicId = Guid.NewGuid().ToString()
                 };
 
@@ -66,6 +67,7 @@ namespace church_mgt_database.seeder
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                     EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
                     PublicId = Guid.NewGuid().ToString()
                 };
                 await userManager.CreateAsync(superPastor, "Password@123");

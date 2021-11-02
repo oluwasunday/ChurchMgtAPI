@@ -3,6 +3,9 @@ using church_mgt_api.Extensions;
 using church_mgt_database;
 using church_mgt_database.seeder;
 using church_mgt_models;
+using church_mgt_utilities;
+using FluentValidation.AspNetCore;
+using HotelMgt.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -34,13 +37,27 @@ namespace church_mgt_api
             services.AddDbContextAndConfigurations(Environment, Configuration);
 
             services.AddControllers();
+
+            services.AddMvc().AddFluentValidation(fv => {
+                fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+                fv.ImplicitlyValidateChildProperties = true;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "church_mgt_api", Version = "v1" });
             });
 
-            // add identity
+            // configure identity
             services.ConfigureIdentity();
+
+            // configure authentication
+            services.ConfigureAuthentication();
+
+            // configure dependency injection
+            services.AddDependencyInjection();
+
+            // configure Automapper
+            services.AddAutoMapper(typeof(AutoMaps));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

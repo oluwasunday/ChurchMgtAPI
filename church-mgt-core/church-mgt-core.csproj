@@ -30,4 +30,13 @@
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitOfWork\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\church-mgt-dtos\church-mgt-dtos.csproj" />
+    <ProjectReference Include="..\church-mgt-models\church-mgt-models.csproj" />
+  </ItemGroup>
+
 </Project>
