@@ -40,6 +40,7 @@ namespace church_mgt_api.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
+
         [HttpGet("confirm-email")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string email, string token)
@@ -55,6 +56,7 @@ namespace church_mgt_api.Controllers
             }
             
         }
+
 
         // base-url/Auth/sendmail
         [HttpPost]
@@ -74,6 +76,7 @@ namespace church_mgt_api.Controllers
 
         }
 
+
         // base-url/Auth/forgotpassword
         [HttpPost]
         [Route("ForgotPassword")]
@@ -91,5 +94,6 @@ namespace church_mgt_api.Controllers
             var result = await _authenticationService.ResetPasswordAsync(model);
             return StatusCode(result.StatusCode, result);
         }
+
     }
 }
