@@ -24,11 +24,11 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(string comment)
+        [Authorize]
+        public async Task<IActionResult> AddComment(string comment)
         {
             var user = await _userManager.GetUserAsync(User);
-            var result = await _commentService.AddCommentAsync("5dd4e50e-2724-4ccc-9f86-c8b9965b2ddb", comment);
+            var result = await _commentService.AddCommentAsync(user.Id, comment);
             return StatusCode(result.StatusCode, result);
         }
 
