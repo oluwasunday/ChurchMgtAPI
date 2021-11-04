@@ -6,7 +6,9 @@ using church_mgt_core.UnitOfWork.implementations;
 using church_mgt_core.UnitOfWork.interfaces;
 using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
+using church_mgt_dtos.DepartmentDtos;
 using church_mgt_utilities.validations.AuthenticationValidators;
+using church_mgt_utilities.validations.DepartmentValidators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,11 +24,13 @@ namespace HotelMgt.API.Extensions
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
 
             // Add Fluent Validator Injections Here
             services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
-            services.AddTransient<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();            
+            services.AddTransient<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
+            services.AddTransient<IValidator<AddDepartmentDto>, AddDepartmentDtoValidator>();
 
         }
     }
