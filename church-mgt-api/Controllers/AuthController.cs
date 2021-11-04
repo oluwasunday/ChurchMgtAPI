@@ -46,7 +46,7 @@ namespace church_mgt_api.Controllers
             try
             {
                 var result = await _authenticationService.ConfirmEmailAsync(email, token);
-                return Redirect($"{_configuration["BaseUrl"]}/confirmemail.html");
+                return Redirect($"{_configuration["BaseUrl"]}confirmemail.html");
             }
             catch (Exception)
             {
