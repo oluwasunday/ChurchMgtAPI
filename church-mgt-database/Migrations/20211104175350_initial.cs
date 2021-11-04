@@ -202,9 +202,8 @@ namespace church_mgt_database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
-                    Request = table.Column<string>(type: "text", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
+                    Request = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -297,9 +296,8 @@ namespace church_mgt_database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
-                    YourTestimony = table.Column<string>(type: "text", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
+                    YourTestimony = table.Column<string>(type: "text", nullable: true),
                     GuestId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },

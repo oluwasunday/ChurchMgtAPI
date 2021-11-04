@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace church_mgt_models
+namespace church_mgt_dtos.TestimonyDtos
 {
-    public class Testimony : BasicEntity
+    public class AddTestimonyDto
     {
-        public string AppUserId { get; set; }
+        [Required(ErrorMessage = "Testimony field is required")]
         public string YourTestimony { get; set; }
     }
 }

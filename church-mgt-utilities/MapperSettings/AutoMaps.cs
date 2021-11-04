@@ -4,6 +4,7 @@ using church_mgt_dtos.AuthenticationDtos;
 using church_mgt_dtos.CommentDto;
 using church_mgt_dtos.DepartmentDtos;
 using church_mgt_dtos.PrayerRequestDtos;
+using church_mgt_dtos.TestimonyDtos;
 using church_mgt_models;
 using System;
 using System.Linq;
@@ -35,6 +36,9 @@ namespace church_mgt_utilities
 
             // prayer request
             CreateMap<PrayerRequest, AddPrayerRequestDto>().ReverseMap();
+
+            // testimonies
+            CreateMap<Testimony, AddTestimonyDto>().ReverseMap();
 
         }
     }

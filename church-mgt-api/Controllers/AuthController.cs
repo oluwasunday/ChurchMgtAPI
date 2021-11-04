@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace church_mgt_api.Controllers
 {
     [ApiController]
-    [Route("api/[Controller]")]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -40,26 +40,19 @@ namespace church_mgt_api.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
-        [HttpGet("confirm-email")]
-        [AllowAnonymous]
+        [HttpGet]
+        [Route("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string email, string token)
         {
-            try
-            {
-                var result = await _authenticationService.ConfirmEmailAsync(email, token);
+          
                 return Redirect($"{_configuration["BaseUrl"]}/confirmemail.html");
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+          
             
         }
 
         // base-url/Auth/sendmail
         [HttpPost]
         [Route("send-mail")]
-        [AllowAnonymous]
         public async Task<IActionResult> SendMail([FromForm] MailRequestDto model)
         {
             try

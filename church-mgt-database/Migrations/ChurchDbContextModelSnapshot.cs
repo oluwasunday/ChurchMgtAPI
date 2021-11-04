@@ -405,9 +405,6 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("GuestId")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.Property<string>("YourTestimony")
                         .HasColumnType("text");
 

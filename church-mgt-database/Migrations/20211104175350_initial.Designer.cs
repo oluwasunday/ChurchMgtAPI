@@ -10,8 +10,8 @@ using church_mgt_database;
 namespace church_mgt_database.Migrations
 {
     [DbContext(typeof(ChurchDbContext))]
-    [Migration("20211104131834_prayerRequestModelModified")]
-    partial class prayerRequestModelModified
+    [Migration("20211104175350_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -405,9 +405,6 @@ namespace church_mgt_database.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("GuestId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.Property<string>("YourTestimony")
