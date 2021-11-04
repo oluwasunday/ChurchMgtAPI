@@ -14,6 +14,7 @@ namespace church_mgt_core.UnitOfWork.implementations
     {
         public ICommentRepository Comment { get; private set; }
         public IDepartmentRepository Department { get; private set; }
+        public IPrayerRequestRepository PrayerRequest { get; private set; }
         private readonly ChurchDbContext _context;
 
         public UnitOfWork(ChurchDbContext context)
@@ -21,6 +22,7 @@ namespace church_mgt_core.UnitOfWork.implementations
             _context = context;
             Comment = new CommentRepository(_context);
             Department = new DepartmentRepository(_context);
+            PrayerRequest = new PrayerRequestRepository(_context);
         }
 
 
