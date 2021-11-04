@@ -2,8 +2,10 @@
 using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
 using church_mgt_dtos.CommentDto;
+using church_mgt_dtos.DepartmentDtos;
 using church_mgt_models;
 using System;
+using System.Linq;
 
 namespace church_mgt_utilities
 {
@@ -22,6 +24,18 @@ namespace church_mgt_utilities
 
             // comments
             CreateMap<Comment, CommentResponseDto>().ReverseMap();
+
+            // department
+            CreateMap<Department, AddDepartmentDto>().ReverseMap();
+            CreateMap<AddDepartmentResponseDto, Department>().ReverseMap();
+            CreateMap<Department, MembersInDeptDto>()
+                .ForMember(x => x.Department, y => y.MapFrom(u => u.Name))
+                .ForMember(x => x.FullName, y => y.MapFrom(u => u.AppUsers.Select(v => v.Title + " " + v.FirstName + " " + v.LastName)));
+                /*.ForMember(x => x.membersInfos.Select(p => p.FirstName), y => y.MapFrom(u => u.AppUsers.Select(q => q.FirstName)))
+                .ForMember(x => x.membersInfos.Select(p => p.LastName), y => y.MapFrom(u => u.AppUsers.Select(q => q.LastName)))
+                .ForMember(x => x.membersInfos.Select(p => p.Title), y => y.MapFrom(u => u.AppUsers.Select(q => q.Title)));*/
+
+
         }
     }
 }

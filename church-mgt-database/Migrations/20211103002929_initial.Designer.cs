@@ -10,7 +10,7 @@ using church_mgt_database;
 namespace church_mgt_database.Migrations
 {
     [DbContext(typeof(ChurchDbContext))]
-    [Migration("20211031124127_initial")]
+    [Migration("20211103002929_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,21 @@ namespace church_mgt_database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("AppUserDepartment", b =>
+                {
+                    b.Property<string>("AppUsersId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DepartmentsId")
+                        .HasColumnType("text");
+
+                    b.HasKey("AppUsersId", "DepartmentsId");
+
+                    b.HasIndex("DepartmentsId");
+
+                    b.ToTable("AppUserDepartment");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -291,9 +306,6 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -303,12 +315,10 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("Departments");
                 });
@@ -415,6 +425,21 @@ namespace church_mgt_database.Migrations
                     b.ToTable("Testimonies");
                 });
 
+            modelBuilder.Entity("AppUserDepartment", b =>
+                {
+                    b.HasOne("church_mgt_models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("AppUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("church_mgt_models.Department", null)
+                        .WithMany()
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -477,13 +502,6 @@ namespace church_mgt_database.Migrations
                         .HasForeignKey("GuestId");
                 });
 
-            modelBuilder.Entity("church_mgt_models.Department", b =>
-                {
-                    b.HasOne("church_mgt_models.AppUser", null)
-                        .WithMany("Departments")
-                        .HasForeignKey("AppUserId");
-                });
-
             modelBuilder.Entity("church_mgt_models.PrayerRequest", b =>
                 {
                     b.HasOne("church_mgt_models.AppUser", null)
@@ -512,8 +530,6 @@ namespace church_mgt_database.Migrations
             modelBuilder.Entity("church_mgt_models.AppUser", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Departments");
 
                     b.Navigation("PrayerRequests");
 

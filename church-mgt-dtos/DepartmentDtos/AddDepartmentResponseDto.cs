@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace church_mgt_models
+namespace church_mgt_dtos.DepartmentDtos
 {
-    public class Department : BasicEntity
+    public class AddDepartmentResponseDto
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public ICollection<AppUser> AppUsers { get; set; }
+        public DateTime CreatedAt { get; set; } 
     }
 }
