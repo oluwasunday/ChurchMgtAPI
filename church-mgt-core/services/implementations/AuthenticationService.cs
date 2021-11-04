@@ -66,7 +66,6 @@ namespace church_mgt_core.services.implementations
 
                 await _emailService.SendEmailAsync(mailDto);
 
-                //await _emailService.SendEmailAsync(new MailRequestDto { ToEmail = user.Email, Subject = "Registration Successful", Body = $"<h1>Hello, your account is successfully created!</h1>\n<p>You can proceed and login to your account on RCCG Solid Rock Parish</p> at {DateTime.UtcNow}", Attachments = null });
                 return Response<RegisterResponseDto>.Success("Succssfully created! Confirmation link successfully sent to specified email", response, StatusCodes.Status201Created);
             }
 
@@ -143,7 +142,7 @@ namespace church_mgt_core.services.implementations
             if (user == null)
                 return Response<string>.Fail("User not found");
 
-            if (model.ConfirmPassword != model.ConfirmPassword)
+            if (model.NewPassword != model.ConfirmPassword)
                 return Response<string>.Fail("Password and ConfirmPassword not match");
 
             var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
