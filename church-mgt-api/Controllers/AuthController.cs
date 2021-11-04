@@ -40,14 +40,19 @@ namespace church_mgt_api.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
-        [HttpGet]
-        [Route("confirm-email")]
+        [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string email, string token)
         {
-          
+            try
+            {
+                var result = await _authenticationService.ConfirmEmailAsync(email, token);
                 return Redirect($"{_configuration["BaseUrl"]}/confirmemail.html");
-          
-            
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
         }
 
         // base-url/Auth/sendmail
