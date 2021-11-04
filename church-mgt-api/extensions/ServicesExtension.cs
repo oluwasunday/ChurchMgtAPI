@@ -1,4 +1,6 @@
-﻿using church_mgt_core.services.implementations;
+﻿using church_mgt_core.repositories.abstractions;
+using church_mgt_core.repositories.implementations;
+using church_mgt_core.services.implementations;
 using church_mgt_core.services.interfaces;
 using church_mgt_core.Services.implementations;
 using church_mgt_core.Services.interfaces;
@@ -25,6 +27,8 @@ namespace HotelMgt.API.Extensions
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IPrayerRequestService, PrayerRequestService>();
+
 
             // Add Fluent Validator Injections Here
             services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();

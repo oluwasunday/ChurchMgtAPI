@@ -8,6 +8,7 @@ namespace church_mgt_core.UnitOfWork.interfaces
     {
         ICommentRepository Comment { get; }
         IDepartmentRepository Department { get; }
+        IPrayerRequestRepository PrayerRequest { get; }
 
         Task CompleteAsync();
     }

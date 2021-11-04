@@ -8,7 +8,7 @@ namespace church_mgt_models
 {
     public class PrayerRequest : BasicEntity
     {
-        public string UserId { get; set; }
+        public string AppUserId { get; set; }
         public string Request {  get;set; }
     }
 }
