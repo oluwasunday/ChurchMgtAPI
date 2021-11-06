@@ -1,0 +1,19 @@
+name: ChurchMgt
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: church mgt app
+      env:
+        HEROKU_API_KEY: 9babe743-11e2-4a23-a2fd-46358111d283
+        APP_NAME: churchmgtapp
+      run: |
+        docker build -t churchmgtapp .
+        docker tag churchmgtapp registry.heroku.com
+        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+        heroku container:push web -a $APP_NAME
+        heroku container:release web -a $APP_NAME
