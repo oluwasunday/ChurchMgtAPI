@@ -16,6 +16,7 @@ namespace church_mgt_core.UnitOfWork.implementations
         public IDepartmentRepository Department { get; private set; }
         public IPrayerRequestRepository PrayerRequest { get; private set; }
         public ITestimonyRepository Testimony { get; private set; }
+        public IPaymentTypeRepository PaymentType { get; private set; }
         private readonly ChurchDbContext _context;
 
         public UnitOfWork(ChurchDbContext context)
@@ -25,6 +26,7 @@ namespace church_mgt_core.UnitOfWork.implementations
             Department = new DepartmentRepository(_context);
             PrayerRequest = new PrayerRequestRepository(_context);
             Testimony = new TestimonyRepository(_context);
+            PaymentType = new PaymentTypeRepository(_context);
         }
 
 
