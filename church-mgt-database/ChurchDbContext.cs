@@ -19,5 +19,7 @@ namespace church_mgt_database
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PrayerRequest> PrayerRequests { get; set; }
         public DbSet<Support> Supports { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
     }
 }
