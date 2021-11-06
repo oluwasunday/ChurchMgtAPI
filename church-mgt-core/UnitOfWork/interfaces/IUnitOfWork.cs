@@ -10,6 +10,7 @@ namespace church_mgt_core.UnitOfWork.interfaces
         IDepartmentRepository Department { get; }
         IPrayerRequestRepository PrayerRequest { get; }
         ITestimonyRepository Testimony { get; }
+        IPaymentTypeRepository PaymentType { get; }
 
         Task CompleteAsync();
     }

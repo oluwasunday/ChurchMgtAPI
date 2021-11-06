@@ -343,6 +343,54 @@ namespace church_mgt_database.Migrations
                     b.ToTable("Guests");
                 });
 
+            modelBuilder.Entity("church_mgt_models.Payment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentReference")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentTypeId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PaymentTypeId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("church_mgt_models.PaymentType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TypeOfPayment")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentTypes");
+                });
+
             modelBuilder.Entity("church_mgt_models.PrayerRequest", b =>
                 {
                     b.Property<string>("Id")
@@ -494,6 +542,21 @@ namespace church_mgt_database.Migrations
                         .HasForeignKey("GuestId");
                 });
 
+            modelBuilder.Entity("church_mgt_models.Payment", b =>
+                {
+                    b.HasOne("church_mgt_models.AppUser", "AppUser")
+                        .WithMany("Payments")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("church_mgt_models.PaymentType", "PaymentType")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentTypeId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("PaymentType");
+                });
+
             modelBuilder.Entity("church_mgt_models.PrayerRequest", b =>
                 {
                     b.HasOne("church_mgt_models.AppUser", null)
@@ -523,6 +586,8 @@ namespace church_mgt_database.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Payments");
+
                     b.Navigation("PrayerRequests");
 
                     b.Navigation("Supports");
@@ -535,6 +600,11 @@ namespace church_mgt_database.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Testimonies");
+                });
+
+            modelBuilder.Entity("church_mgt_models.PaymentType", b =>
+                {
+                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

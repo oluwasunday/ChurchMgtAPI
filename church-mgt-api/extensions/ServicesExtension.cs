@@ -29,6 +29,10 @@ namespace HotelMgt.API.Extensions
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IPrayerRequestService, PrayerRequestService>();
             services.AddScoped<ITestimonyService, TestimonyService>();
+            services.AddScoped<IPaymentTypeService, PaymentTypeService>();
+
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
 
             // Add Fluent Validator Injections Here

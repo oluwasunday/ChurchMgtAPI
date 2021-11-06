@@ -92,6 +92,18 @@ namespace church_mgt_database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentTypes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    TypeOfPayment = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -318,6 +330,36 @@ namespace church_mgt_database.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    PaymentReference = table.Column<string>(type: "text", nullable: true),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PaymentTypeId = table.Column<string>(type: "text", nullable: true),
+                    AppUserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payments_PaymentTypes_PaymentTypeId",
+                        column: x => x.PaymentTypeId,
+                        principalTable: "PaymentTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AppUserDepartment_DepartmentsId",
                 table: "AppUserDepartment",
@@ -371,6 +413,16 @@ namespace church_mgt_database.Migrations
                 column: "GuestId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_AppUserId",
+                table: "Payments",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_PaymentTypeId",
+                table: "Payments",
+                column: "PaymentTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PrayerRequests_AppUserId",
                 table: "PrayerRequests",
                 column: "AppUserId");
@@ -415,6 +467,9 @@ namespace church_mgt_database.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Payments");
+
+            migrationBuilder.DropTable(
                 name: "PrayerRequests");
 
             migrationBuilder.DropTable(
@@ -428,6 +483,9 @@ namespace church_mgt_database.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "PaymentTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
