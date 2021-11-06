@@ -73,21 +73,6 @@ namespace church_mgt_database.seeder
                 await userManager.CreateAsync(superPastor, "Password@123");
                 await userManager.AddToRoleAsync(superPastor, "SuperPastor");
 
-                /*var path = File.ReadAllText(FilePath(baseDir, "Json/users.json"));
-                var churchUsers = JsonConvert.DeserializeObject<List<AppUser>>(path);
-                for (int i = 0; i < churchUsers.Count; i++)
-                {
-                    churchUsers[i].EmailConfirmed = true;
-                    await userManager.CreateAsync(churchUsers[i], "Password@123");
-                    if (i < 5)
-                        await userManager.AddToRoleAsync(churchUsers[i], "Pastor");
-                    else if (i < 10)
-                        await userManager.AddToRoleAsync(churchUsers[i], "Worker");
-                    else if (i < 12)
-                        await userManager.AddToRoleAsync(churchUsers[i], "Guest");
-                    else
-                        await userManager.AddToRoleAsync(churchUsers[i], "Member");
-                }*/
             }
             await dbContext.SaveChangesAsync();
         }
