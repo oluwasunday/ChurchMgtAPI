@@ -12,6 +12,7 @@ using HotelMgt.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -89,12 +90,10 @@ namespace church_mgt_api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             ChurchDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "church_mgt_api v1"));
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "church_mgt_api v1"));
+           
 
             // use church mgt seeder class
             ChurchMgtSeeder.SeedData(dbContext, userManager, roleManager).GetAwaiter().GetResult();
