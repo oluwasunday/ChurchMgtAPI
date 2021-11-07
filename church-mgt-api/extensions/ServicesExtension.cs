@@ -30,6 +30,7 @@ namespace HotelMgt.API.Extensions
             services.AddScoped<IPrayerRequestService, PrayerRequestService>();
             services.AddScoped<ITestimonyService, TestimonyService>();
             services.AddScoped<IPaymentTypeService, PaymentTypeService>();
+            services.AddScoped<IContactUsService, ContactUsService>();
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentService, PaymentService>();
