@@ -26,6 +26,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult PrayerRequests()
         {
             var result = _prayerRequestService.GetAllPrayerRequests();
@@ -33,6 +34,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("{prayerRequestId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> PrayerRequestById(string prayerRequestId)
         {
             var result = await _prayerRequestService.GetPrayerRequestByIdAsync(prayerRequestId);
@@ -40,7 +42,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> AddPrayerRequest(AddPrayerRequestDto prayerRequestDto)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -49,6 +51,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("memberId")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult PrayerRequestsByMemberId(string memberId)
         {
             var result = _prayerRequestService.GetPrayerRequestsByMemberId(memberId);
@@ -56,6 +59,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpDelete("{prayerRequestId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> DeletePrayerRequestsById(string prayerRequestId)
         {
             var result = await _prayerRequestService.DeletePrayerRequestsById(prayerRequestId);
