@@ -24,7 +24,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> AddComment(string comment)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -33,6 +33,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet()]
+        [Authorize(Roles = "Admin, PAstor, SuperPastor")]
         public IActionResult GetComments()
         {
             var result = _commentService.GetAllComments();
@@ -40,6 +41,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("{commentId}")]
+        [Authorize (Roles = "Admin, PAstor, SuperPastor")]
         public async Task<IActionResult> GetComment(string commentId)
         {
             var result = await _commentService.GetCommentById(commentId);
@@ -47,6 +49,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpDelete("{commentId}")]
+        [Authorize(Roles = "Admin, PAstor, SuperPastor")]
         public async Task<IActionResult> DeleteComment(string commentId)
         {
             var result = await _commentService.DeleteCommentById(commentId);

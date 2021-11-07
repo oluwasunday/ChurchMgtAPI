@@ -38,6 +38,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet()]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetAllPayments()
         {
             var result = await _paymentService.GetAllPaymentsAsync();
@@ -45,6 +46,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("{paymentId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetPayments(string paymentId)
         {
             var result = await _paymentService.GetPaymentByIdAsync(paymentId);
@@ -53,7 +55,7 @@ namespace church_mgt_api.Controllers
 
 
         [HttpPost()]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> MakePayment(MakePaymentDto payment)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -76,6 +78,7 @@ namespace church_mgt_api.Controllers
 
         // ======================== PaymentType Controller======================
         [HttpGet("AllPaymentTypes")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult GetAllPaymentType()
         {
             var result = _paymentTypeService.GetAllPaymentType();
@@ -83,6 +86,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("PaymentTypes/{paymentTypeId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetPaymentType(string paymentTypeId)
         {
             var result = await _paymentTypeService.GetPaymentTypeById(paymentTypeId);
@@ -90,6 +94,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost("PaymentTypes")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> PaymentType(AddPaymentTypeDto paymentTypeDto)
         {
             var result = await _paymentTypeService.AddPaymentType(paymentTypeDto);
@@ -97,6 +102,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpDelete("PaymentTypes/{paymentTypeId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> DeletePaymentType(string paymentTypeId)
         {
             var result = await _paymentTypeService.DeletePaymentType(paymentTypeId);
@@ -104,6 +110,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPut("PaymentTypes/{paymentTypeId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> UpdatePaymentType(string paymentTypeId)
         {
             var result = await _paymentTypeService.UpdatePaymentType(paymentTypeId);
