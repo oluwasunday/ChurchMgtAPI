@@ -21,5 +21,6 @@ namespace church_mgt_database
         public DbSet<Support> Supports { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
     }
 }

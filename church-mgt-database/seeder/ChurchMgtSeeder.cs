@@ -72,7 +72,6 @@ namespace church_mgt_database.seeder
                 };
                 await userManager.CreateAsync(superPastor, "Password@123");
                 await userManager.AddToRoleAsync(superPastor, "SuperPastor");
-
             }
             await dbContext.SaveChangesAsync();
         }
