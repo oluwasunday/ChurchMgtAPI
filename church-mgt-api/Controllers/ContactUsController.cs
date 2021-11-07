@@ -18,7 +18,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetAllContactsMessage()
         {
             var result = await _contactUsService.GetAllContactsAsync();
@@ -26,6 +26,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("{contactId}")]
+        [Authorize (Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetContactMessage(string contactId)
         {
             var result = await _contactUsService.GetAllContactsAsync(contactId);
@@ -33,6 +34,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> PostContactMessage(AddContactDto contactDto)
         {
             var result = await _contactUsService.AddContactAsync(contactDto);
@@ -40,6 +42,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpDelete("{contactId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> DeleteContactMessage(string contactId)
         {
             var result = await _contactUsService.DeletContactsAsync(contactId);

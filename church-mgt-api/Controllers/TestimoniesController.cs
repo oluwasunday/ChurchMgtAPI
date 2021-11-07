@@ -1,6 +1,7 @@
 ﻿using church_mgt_core.services.interfaces;
 using church_mgt_dtos.TestimonyDtos;
 using church_mgt_models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> AddTestimony(AddTestimonyDto testimony)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -32,6 +34,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult Testimonies()
         {
             var result = _testimonyService.GetTestimonies();
@@ -39,6 +42,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpGet("{testimonyId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> Testimonies(string testimonyId)
         {
             var result = await _testimonyService.GetTestimonyById(testimonyId);
@@ -46,6 +50,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpDelete("{testimonyId}")]
+        [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> Testimony(string testimonyId)
         {
             var result = await _testimonyService.DeleteTestimonyById(testimonyId);
