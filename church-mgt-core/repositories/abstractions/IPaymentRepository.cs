@@ -11,5 +11,6 @@ namespace church_mgt_core.repositories.abstractions
         Task AddPaymentAsync(Payment payment);
         Task<Payment> GetPaymentByReference(string reference);
         Task UpdatePayment(Payment payment);
+        Task<Payment> GetPaymentByPaymentType(string paymentType);
     }
 }

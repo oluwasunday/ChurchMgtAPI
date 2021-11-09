@@ -30,10 +30,9 @@ namespace church_mgt_core.services.implementations
             PayStack = new PayStackApi(_configuration["Payment:PaystackSK"]);
         }
 
-        public async Task<Response<TransactionInitializeResponse>> MakePaymentAsync(string userId, MakePaymentDto payment)
+        public async Task<Response<TransactionInitializeResponse>> MakePaymentAsync(MakePaymentDto payment)
         {
             var pay = _mapper.Map<Payment>(payment);
-            pay.AppUserId = userId;
             pay.PaymentReference = $"{ReferenceGenerator.GetInitials()}-{ReferenceGenerator.Generate()}";
 
             TransactionInitializeRequest trxRequest = new()
