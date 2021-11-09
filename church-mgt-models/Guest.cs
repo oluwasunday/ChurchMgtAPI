@@ -13,6 +13,5 @@ namespace church_mgt_models
         public string PhoneNumber { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<Testimony> Testimonies { get; set; }
     }
 }
