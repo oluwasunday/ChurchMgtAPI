@@ -20,10 +20,9 @@ namespace church_mgt_core.repositories.implementations
             _dbSet = _context.Set<Testimony>();
         }
 
-        public IEnumerable<Testimony> GetPrayerTestimoniesByAMember(string memberId)
+        public override IEnumerable<Testimony> GetAll()
         {
-            var testimony = _dbSet.Where(x => x.AppUserId == memberId).ToList();
-            return testimony;
+            return _dbSet.OrderByDescending(x => x.CreatedAt);
         }
     }
 }

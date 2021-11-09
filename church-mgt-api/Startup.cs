@@ -95,7 +95,6 @@ namespace church_mgt_api
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "church_mgt_api v1"));
-           
 
             // use church mgt seeder class
             ChurchMgtSeeder.SeedData(dbContext, userManager, roleManager).GetAwaiter().GetResult();

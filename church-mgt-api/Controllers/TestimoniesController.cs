@@ -32,8 +32,8 @@ namespace church_mgt_api.Controllers
         public async Task<IActionResult> AddTestimony(AddTestimonyDto testimony)
         {
             _logger.Information("Attempt to add testimony");
-            var user = await _userManager.GetUserAsync(User);
-            var result = await _testimonyService.AddTestimony(user.Id, testimony);
+
+            var result = await _testimonyService.AddTestimony(testimony);
             return StatusCode(result.StatusCode, result);
         }
 

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace church_mgt_database.Migrations
 {
-    public partial class initial : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -133,6 +133,21 @@ namespace church_mgt_database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Testimonies",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    YourTestimony = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Testimonies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -266,10 +281,9 @@ namespace church_mgt_database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
+                    AppUserId = table.Column<string>(type: "text", nullable: true),
                     Suggestion = table.Column<string>(type: "text", nullable: true),
                     IsOpen = table.Column<bool>(type: "boolean", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
@@ -312,9 +326,8 @@ namespace church_mgt_database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
-                    Comments = table.Column<string>(type: "text", nullable: true),
                     AppUserId = table.Column<string>(type: "text", nullable: true),
+                    Comments = table.Column<string>(type: "text", nullable: true),
                     GuestId = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -329,33 +342,6 @@ namespace church_mgt_database.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Guests_GuestId",
-                        column: x => x.GuestId,
-                        principalTable: "Guests",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Testimonies",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    AppUserId = table.Column<string>(type: "text", nullable: true),
-                    YourTestimony = table.Column<string>(type: "text", nullable: true),
-                    GuestId = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Testimonies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Testimonies_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Testimonies_Guests_GuestId",
                         column: x => x.GuestId,
                         principalTable: "Guests",
                         principalColumn: "Id",
@@ -423,16 +409,6 @@ namespace church_mgt_database.Migrations
                 name: "IX_Supports_AppUserId",
                 table: "Supports",
                 column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Testimonies_AppUserId",
-                table: "Testimonies",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Testimonies_GuestId",
-                table: "Testimonies",
-                column: "GuestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -483,10 +459,10 @@ namespace church_mgt_database.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Guests");
 
             migrationBuilder.DropTable(
-                name: "Guests");
+                name: "AspNetUsers");
         }
     }
 }

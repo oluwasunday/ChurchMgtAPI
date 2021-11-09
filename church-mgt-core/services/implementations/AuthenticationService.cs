@@ -5,10 +5,12 @@ using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
 using church_mgt_dtos.Dtos;
 using church_mgt_models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Linq;
@@ -25,6 +27,7 @@ namespace church_mgt_core.services.implementations
         private readonly IConfiguration _configuration;
         private readonly ITokenGeneratorService _tokenGenerator; 
         private readonly ILogger _logger;
+        private readonly IWebHostEnvironment _env;
 
         public AuthenticationService(
             IMapper mapper, 
@@ -32,13 +35,16 @@ namespace church_mgt_core.services.implementations
             IEmailService emailService,
             IConfiguration configuration, 
             ITokenGeneratorService tokenGenerator,
-            ILogger logger)
+            ILogger logger,
+            IWebHostEnvironment env)
         {
             _mapper = mapper;
             _userManager = userManager;
             _emailService = emailService;
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
+            _logger = logger;
+            _env = env;
         }
 
         public async Task<Response<RegisterResponseDto>> Register(RegisterDto registerDto)
@@ -63,7 +69,9 @@ namespace church_mgt_core.services.implementations
                 var encodedEmailToken = Encoding.UTF8.GetBytes(emailToken);
                 var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-                string url = $"{_configuration["BaseUrl"]}api/Auth/confirm-email?email={user.Email}&token={validEmailToken}";
+                string baseUrl = _env.IsProduction() ? _configuration["HerokuUrl"] : _configuration["BaseUrl"];
+                
+                string url = $"{baseUrl}api/Auth/confirm-email?email={user.Email}&token={validEmailToken}";
                 var mailDto = new MailRequestDto
                 {
                     ToEmail = user.Email,
@@ -139,7 +147,8 @@ namespace church_mgt_core.services.implementations
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration["BaseUrl"]}ResetPassword?email={email}&token={validToken}";
+            string baseUrl = _env.IsProduction() ? _configuration["HerokuUrl"] : _configuration["BaseUrl"];
+            string url = $"{baseUrl}ResetPassword?email={email}&token={validToken}";
 
             await _emailService.SendEmailAsync(new MailRequestDto
             {

@@ -5,6 +5,7 @@ namespace church_mgt_core.repositories.abstractions
 {
     public interface ITestimonyRepository : IRepository<Testimony>
     {
-        IEnumerable<Testimony> GetPrayerTestimoniesByAMember(string memberId);
+        //IEnumerable<Testimony> GetPrayerTestimoniesByAMember(string memberId);
+        new IEnumerable<Testimony> GetAll();
     }
 }

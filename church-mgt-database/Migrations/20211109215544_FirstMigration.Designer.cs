@@ -10,8 +10,8 @@ using church_mgt_database;
 namespace church_mgt_database.Migrations
 {
     [DbContext(typeof(ChurchDbContext))]
-    [Migration("20211108235846_initial")]
-    partial class initial
+    [Migration("20211109215544_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -289,9 +289,6 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("GuestId")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
@@ -449,9 +446,6 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("Suggestion")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
@@ -464,23 +458,22 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("AppUserId")
+                    b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("GuestId")
+                    b.Property<string>("FullName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("YourTestimony")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("GuestId");
 
                     b.ToTable("Testimonies");
                 });
@@ -553,13 +546,15 @@ namespace church_mgt_database.Migrations
 
             modelBuilder.Entity("church_mgt_models.Comment", b =>
                 {
-                    b.HasOne("church_mgt_models.AppUser", null)
+                    b.HasOne("church_mgt_models.AppUser", "AppUser")
                         .WithMany("Comments")
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("church_mgt_models.Guest", null)
                         .WithMany("Comments")
                         .HasForeignKey("GuestId");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("church_mgt_models.PrayerRequest", b =>
@@ -576,17 +571,6 @@ namespace church_mgt_database.Migrations
                         .HasForeignKey("AppUserId");
                 });
 
-            modelBuilder.Entity("church_mgt_models.Testimony", b =>
-                {
-                    b.HasOne("church_mgt_models.AppUser", null)
-                        .WithMany("Testimonies")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("church_mgt_models.Guest", null)
-                        .WithMany("Testimonies")
-                        .HasForeignKey("GuestId");
-                });
-
             modelBuilder.Entity("church_mgt_models.AppUser", b =>
                 {
                     b.Navigation("Comments");
@@ -594,15 +578,11 @@ namespace church_mgt_database.Migrations
                     b.Navigation("PrayerRequests");
 
                     b.Navigation("Supports");
-
-                    b.Navigation("Testimonies");
                 });
 
             modelBuilder.Entity("church_mgt_models.Guest", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Testimonies");
                 });
 #pragma warning restore 612, 618
         }

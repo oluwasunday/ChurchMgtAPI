@@ -38,11 +38,9 @@ namespace church_mgt_core.services.implementations
             return Response<Testimony>.Success("Success", testimony);
         }
 
-        public async Task<Response<Testimony>> AddTestimony(string memberId, AddTestimonyDto testimonyDto)
+        public async Task<Response<Testimony>> AddTestimony(AddTestimonyDto testimonyDto)
         {
             var model = _mapper.Map<Testimony>(testimonyDto);
-            model.AppUserId = memberId;
-            model.AppUserId = memberId;
 
             await _unitOfWork.Testimony.AddAsync(model);
             await _unitOfWork.CompleteAsync();
