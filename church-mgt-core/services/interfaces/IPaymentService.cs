@@ -11,7 +11,7 @@ namespace church_mgt_core.services.interfaces
     {
         Task<Response<IEnumerable<PaymentResponseDto>>> GetAllPaymentsAsync();
         Task<Response<PaymentResponseDto>> GetPaymentByIdAsync(string paymentId);
-        Task<Response<TransactionInitializeResponse>> MakePaymentAsync(string userId, MakePaymentDto payment);
+        Task<Response<TransactionInitializeResponse>> MakePaymentAsync(MakePaymentDto payment);
         Task<Payment> PaymentByPaymentReferenceAsync(string reference);
         Task<Response<string>> UpdatePaymentAsync(Payment payment);
         Task<Response<string>> VerifyPaymentAsync(string reference);

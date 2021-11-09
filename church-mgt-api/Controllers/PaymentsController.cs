@@ -58,8 +58,7 @@ namespace church_mgt_api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> MakePayment(MakePaymentDto payment)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var result = await _paymentService.MakePaymentAsync(user.Id, payment);
+            var result = await _paymentService.MakePaymentAsync(payment);
 
             if (result.Succeeded)
                 return StatusCode(result.StatusCode, result);
