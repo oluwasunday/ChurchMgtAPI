@@ -12,7 +12,6 @@ namespace church_mgt_api.extensions
     {
         private static string ConnectHeroku()
         {
-            // Get the Database URL from the ENV variables in Heroku
             string connectionUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
             // parse the connection string
             var databaseUri = new Uri(connectionUrl);
