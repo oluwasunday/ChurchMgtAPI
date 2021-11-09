@@ -98,8 +98,6 @@ namespace church_mgt_api
 
             // use church mgt seeder class
             ChurchMgtSeeder.SeedData(dbContext, userManager, roleManager).GetAwaiter().GetResult();
-            
-            dbContext.Database.MigrateAsync().Wait();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
