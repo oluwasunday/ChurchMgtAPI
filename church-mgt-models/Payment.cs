@@ -14,9 +14,6 @@ namespace church_mgt_models
         public bool Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string Email { get; set; }
-        public string PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
-        public string AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
+        public string PaymentType { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using System;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,16 @@ namespace church_mgt_core.services.implementations
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
-        private readonly ITokenGeneratorService _tokenGenerator;
+        private readonly ITokenGeneratorService _tokenGenerator; 
+        private readonly ILogger _logger;
 
-        public AuthenticationService(IMapper mapper, UserManager<AppUser> userManager, IEmailService emailService,
-            IConfiguration configuration, ITokenGeneratorService tokenGenerator)
+        public AuthenticationService(
+            IMapper mapper, 
+            UserManager<AppUser> userManager, 
+            IEmailService emailService,
+            IConfiguration configuration, 
+            ITokenGeneratorService tokenGenerator,
+            ILogger logger)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -36,6 +43,7 @@ namespace church_mgt_core.services.implementations
 
         public async Task<Response<RegisterResponseDto>> Register(RegisterDto registerDto)
         {
+            _logger.Information("Registration attempt");
             if (registerDto.Password != registerDto.ConfirmPassword)
                 return Response<RegisterResponseDto>.Fail("Password and ConfirmPassword not match");
 
@@ -43,8 +51,8 @@ namespace church_mgt_core.services.implementations
             user.UserName = registerDto.Email;
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-            
 
+            _logger.Information("Registration attempt");
             var response = _mapper.Map<RegisterResponseDto>(user);
             if (result.Succeeded)
             {
@@ -69,10 +77,12 @@ namespace church_mgt_core.services.implementations
                 return Response<RegisterResponseDto>.Success("Succssfully created! Confirmation link successfully sent to specified email", response, StatusCodes.Status201Created);
             }
 
+            
             string errors = "";
             foreach (var err in result.Errors)
                 errors += err + Environment.NewLine;
-
+            
+            _logger.Information("Registration failed" + errors);
             return Response<RegisterResponseDto>.Fail(errors);
         }
 
@@ -82,9 +92,13 @@ namespace church_mgt_core.services.implementations
             if (user == null)
                 return Response<LoginResponseDto>.Fail("No user with the specified email address found");
 
+            _logger.Information("Login attempt");
             var result = await _userManager.CheckPasswordAsync(user, model.Password);
             if (!result)
+            {
+                _logger.Information("Login failed");
                 return Response<LoginResponseDto>.Fail("Invalid credentials");
+            }
 
             var token = await _tokenGenerator.GenerateToken(user);
             await _emailService.SendEmailAsync(new MailRequestDto { ToEmail = user.Email, Subject = "New login", Body = $"<h1>Hello, new login to your account noticed!</h1>\n<p>New login to your account on RCCG Solid Rock Parish</p> at {DateTime.UtcNow}", Attachments = null });
@@ -115,6 +129,7 @@ namespace church_mgt_core.services.implementations
 
         public async Task<Response<string>> ForgotPasswordAsync(string email)
         {
+            _logger.Information($"Attempt forgot password for {email}");
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
                 return Response<string>.Fail("User not found", StatusCodes.Status404NotFound);
@@ -138,10 +153,12 @@ namespace church_mgt_core.services.implementations
 
         public async Task<Response<string>> ResetPasswordAsync(ResetPasswordDto model)
         {
+            _logger.Information($"Attempt reset password for {model.Email}");
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
                 return Response<string>.Fail("User not found");
 
+            _logger.Information($"Attempt forgot password failed for {model.Email}, Password and ConfirmedPassword not match");
             if (model.NewPassword != model.ConfirmPassword)
                 return Response<string>.Fail("Password and ConfirmPassword not match");
 
@@ -152,6 +169,7 @@ namespace church_mgt_core.services.implementations
             if (result.Succeeded)
                 return Response<string>.Success("Password successfully reset", "Successful");
 
+            _logger.Information($"Attempt forgot password failed for {model.Email}, something went wrong");
             return new Response<string> { Message= "Something went wrong", StatusCode= StatusCodes.Status500InternalServerError, Errors = GetErrors(result)};
         }
     }

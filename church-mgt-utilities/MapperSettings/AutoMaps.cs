@@ -49,9 +49,7 @@ namespace church_mgt_utilities
             CreateMap<AddPaymentTypeResponseDto, PaymentType>().ReverseMap();
 
             // payment
-            CreateMap<Payment, PaymentResponseDto>()
-                .ForMember(x => x.PaymentType, y => y.MapFrom(u => u.PaymentType.Id))
-                .ForMember(x => x.AppUser, y => y.MapFrom(u => u.AppUser.FirstName + " " + u.AppUser.LastName));
+            CreateMap<Payment, PaymentResponseDto>().ReverseMap();
             CreateMap<Payment, MakePaymentDto>().ReverseMap();
 
             // contact us

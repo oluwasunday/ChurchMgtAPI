@@ -7,6 +7,7 @@ using church_mgt_models;
 using hotel_booking_utilities;
 using Microsoft.Extensions.Configuration;
 using PayStack.Net;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +21,22 @@ namespace church_mgt_core.services.implementations
         private readonly IPaymentRepository _paymentRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
         private PayStackApi PayStack { get; set; }
          
-        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IConfiguration configuration)
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IConfiguration configuration, ILogger logger)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
             _configuration = configuration;
+            _logger = logger;
             PayStack = new PayStackApi(_configuration["Payment:PaystackSK"]);
         }
 
-        public async Task<Response<TransactionInitializeResponse>> MakePaymentAsync(string userId, MakePaymentDto payment)
+        public async Task<Response<TransactionInitializeResponse>> MakePaymentAsync(MakePaymentDto payment)
         {
+            _logger.Information($"Attempt Make payment for {payment.Email}");
             var pay = _mapper.Map<Payment>(payment);
-            pay.AppUserId = userId;
             pay.PaymentReference = $"{ReferenceGenerator.GetInitials()}-{ReferenceGenerator.Generate()}";
 
             TransactionInitializeRequest trxRequest = new()
@@ -45,6 +48,7 @@ namespace church_mgt_core.services.implementations
                 CallbackUrl = $"{_configuration["BaseUrl"]}api/Payments/VerifyPayment"//?reference={pay.PaymentReference}"
             };
 
+            _logger.Information($"Attempt making payment for {payment.Email}");
             TransactionInitializeResponse trxResponse = PayStack.Transactions.Initialize(trxRequest);
             if (trxResponse.Status)
             {
@@ -76,6 +80,7 @@ namespace church_mgt_core.services.implementations
 
         public async Task<Response<string>> VerifyPaymentAsync(string reference)
         {
+            _logger.Information($"Attempt verify payemnt for {reference}");
             TransactionVerifyResponse response = PayStack.Transactions.Verify(reference);
             
             if (response.Data.Status == "success")
@@ -87,6 +92,7 @@ namespace church_mgt_core.services.implementations
                 return Response<string>.Success("Success", $"Transaction reference - {payment.PaymentReference}");
             }
 
+            _logger.Information($"Attempt verify payment failed, gateway response {response.Data.GatewayResponse}");
             return Response<string>.Fail(response.Data.GatewayResponse);
         }
 
@@ -100,11 +106,13 @@ namespace church_mgt_core.services.implementations
 
         public async Task<Response<string>> UpdatePaymentAsync(Payment payment)
         {
+            _logger.Information($"Attempt update payment for {payment.PaymentReference}");
             if (payment == null)
                 return Response<string>.Fail("Transaction not exist");
 
             payment.Status = true;
 
+            _logger.Information($"Attempt update payment for {payment.PaymentReference}");
             await _paymentRepository.UpdatePayment(payment);
             return Response<string>.Success("Success", $"Payment reference {payment.PaymentReference}");
         }

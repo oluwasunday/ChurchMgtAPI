@@ -4,6 +4,7 @@ using church_mgt_models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +18,20 @@ namespace church_mgt_api.Controllers
     {
         private readonly ITestimonyService _testimonyService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly ILogger _logger;
 
-        public TestimoniesController(ITestimonyService testimonyService, UserManager<AppUser> userManager)
+        public TestimoniesController(ITestimonyService testimonyService, UserManager<AppUser> userManager, ILogger logger)
         {
             _testimonyService = testimonyService;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> AddTestimony(AddTestimonyDto testimony)
         {
+            _logger.Information("Attempt to add testimony");
             var user = await _userManager.GetUserAsync(User);
             var result = await _testimonyService.AddTestimony(user.Id, testimony);
             return StatusCode(result.StatusCode, result);
@@ -37,6 +41,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult Testimonies()
         {
+            _logger.Information("Attempt to get all testimonies");
             var result = _testimonyService.GetTestimonies();
             return StatusCode(result.StatusCode, result);
         }
@@ -45,6 +50,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> Testimonies(string testimonyId)
         {
+            _logger.Information($"Attempt to get testimony for {testimonyId}");
             var result = await _testimonyService.GetTestimonyById(testimonyId);
             return StatusCode(result.StatusCode, result);
         }
@@ -53,6 +59,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> Testimony(string testimonyId)
         {
+            _logger.Information($"Attempt to delete testimony for {testimonyId}");
             var result = await _testimonyService.DeleteTestimonyById(testimonyId);
             return StatusCode(result.StatusCode, result);
         }

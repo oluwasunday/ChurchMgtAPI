@@ -29,6 +29,5 @@ namespace church_mgt_models
         public ICollection<Support> Supports { get; set; }
         public ICollection<PrayerRequest> PrayerRequests { get; set; }
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<Payment> Payments { get; set; }
     }
 }

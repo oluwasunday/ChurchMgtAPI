@@ -10,6 +10,5 @@ namespace church_mgt_models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string TypeOfPayment { get; set; }
-        public ICollection<Payment> Payments { get; set; }
     }
 }

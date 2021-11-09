@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PayStack.Net;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace church_mgt_api.Controllers
@@ -20,6 +21,7 @@ namespace church_mgt_api.Controllers
         private readonly IPaymentService _paymentService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
         private PayStackApi PayStack { get; set; }
 
@@ -27,13 +29,14 @@ namespace church_mgt_api.Controllers
             IPaymentTypeService paymentTypeService, 
             IPaymentService paymentService, 
             UserManager<AppUser> userManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger logger)
         {
             _paymentTypeService = paymentTypeService;
             _paymentService = paymentService;
             _userManager = userManager;
             _configuration = configuration;
-
+            _logger = logger;
             PayStack = new PayStackApi(_configuration["Payment:PaystackSK"]);
         }
 
@@ -41,6 +44,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetAllPayments()
         {
+            _logger.Information("Attempt to get all payments");
             var result = await _paymentService.GetAllPaymentsAsync();
             return StatusCode(result.StatusCode, result);
         }
@@ -49,6 +53,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetPayments(string paymentId)
         {
+            _logger.Information($"Attempt to get payment for {paymentId}");
             var result = await _paymentService.GetPaymentByIdAsync(paymentId);
             return StatusCode(result.StatusCode, result);
         }
@@ -58,8 +63,8 @@ namespace church_mgt_api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> MakePayment(MakePaymentDto payment)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var result = await _paymentService.MakePaymentAsync(user.Id, payment);
+            _logger.Information($"Attempt to make payment for {payment.Email} by {payment.PaymentType}");
+            var result = await _paymentService.MakePaymentAsync(payment);
 
             if (result.Succeeded)
                 return StatusCode(result.StatusCode, result);
@@ -70,6 +75,7 @@ namespace church_mgt_api.Controllers
         [HttpGet("VerifyPayment")]
         public async Task<IActionResult> Verify(string trxref, string reference)
         {
+            _logger.Information($"Attempt to verify payment for reference {reference}");
             var result = await _paymentService.VerifyPaymentAsync(reference);
             return StatusCode(result.StatusCode, result);
         }
@@ -81,6 +87,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public IActionResult GetAllPaymentType()
         {
+            _logger.Information("Attempt to get all payment types");
             var result = _paymentTypeService.GetAllPaymentType();
             return StatusCode(result.StatusCode, result);
         }
@@ -89,6 +96,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> GetPaymentType(string paymentTypeId)
         {
+            _logger.Information($"Attempt to get payment type for {paymentTypeId}");
             var result = await _paymentTypeService.GetPaymentTypeById(paymentTypeId);
             return StatusCode(result.StatusCode, result);
         }
@@ -97,6 +105,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> PaymentType(AddPaymentTypeDto paymentTypeDto)
         {
+            _logger.Information($"Attempt to add payment type {paymentTypeDto.TypeOfPayment}");
             var result = await _paymentTypeService.AddPaymentType(paymentTypeDto);
             return StatusCode(result.StatusCode, result);
         }
@@ -105,6 +114,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> DeletePaymentType(string paymentTypeId)
         {
+            _logger.Information($"Attempt to delete payment type for {paymentTypeId}");
             var result = await _paymentTypeService.DeletePaymentType(paymentTypeId);
             return StatusCode(result.StatusCode, result);
         }
@@ -113,6 +123,7 @@ namespace church_mgt_api.Controllers
         [Authorize(Roles = "Admin, Pastor, SuperPastor")]
         public async Task<IActionResult> UpdatePaymentType(string paymentTypeId)
         {
+            _logger.Information($"Attempt to update payment type for {paymentTypeId}");
             var result = await _paymentTypeService.UpdatePaymentType(paymentTypeId);
             return StatusCode(result.StatusCode, result);
         }

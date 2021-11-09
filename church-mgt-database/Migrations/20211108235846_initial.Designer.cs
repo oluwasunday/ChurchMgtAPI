@@ -10,8 +10,8 @@ using church_mgt_database;
 namespace church_mgt_database.Migrations
 {
     [DbContext(typeof(ChurchDbContext))]
-    [Migration("20211107103843_contactUsModelAdded")]
-    partial class contactUsModelAdded
+    [Migration("20211108235846_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -378,9 +378,6 @@ namespace church_mgt_database.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -390,17 +387,13 @@ namespace church_mgt_database.Migrations
                     b.Property<string>("PaymentReference")
                         .HasColumnType("text");
 
-                    b.Property<string>("PaymentTypeId")
+                    b.Property<string>("PaymentType")
                         .HasColumnType("text");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Payments");
                 });
@@ -569,21 +562,6 @@ namespace church_mgt_database.Migrations
                         .HasForeignKey("GuestId");
                 });
 
-            modelBuilder.Entity("church_mgt_models.Payment", b =>
-                {
-                    b.HasOne("church_mgt_models.AppUser", "AppUser")
-                        .WithMany("Payments")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("church_mgt_models.PaymentType", "PaymentType")
-                        .WithMany("Payments")
-                        .HasForeignKey("PaymentTypeId");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("PaymentType");
-                });
-
             modelBuilder.Entity("church_mgt_models.PrayerRequest", b =>
                 {
                     b.HasOne("church_mgt_models.AppUser", null)
@@ -613,8 +591,6 @@ namespace church_mgt_database.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Payments");
-
                     b.Navigation("PrayerRequests");
 
                     b.Navigation("Supports");
@@ -627,11 +603,6 @@ namespace church_mgt_database.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Testimonies");
-                });
-
-            modelBuilder.Entity("church_mgt_models.PaymentType", b =>
-                {
-                    b.Navigation("Payments");
                 });
 #pragma warning restore 612, 618
         }

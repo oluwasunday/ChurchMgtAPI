@@ -4,6 +4,7 @@ using church_mgt_dtos.AuthenticationDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -16,18 +17,25 @@ namespace church_mgt_api.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IEmailService _mailService;
         private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public AuthController(IAuthenticationService authenticationService, IEmailService mailService, IConfiguration configuration)
+        public AuthController(
+            IAuthenticationService authenticationService, 
+            IEmailService mailService, 
+            IConfiguration configuration, 
+            ILogger logger)
         {
             _authenticationService = authenticationService;
             _mailService = mailService;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody ]RegisterDto registerDto)
         {
+            _logger.Information($"Registration attempt for {registerDto.Email}");
             var result = await _authenticationService.Register(registerDto);
             return StatusCode(result.StatusCode, result);
         }
@@ -36,6 +44,7 @@ namespace church_mgt_api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
+            _logger.Information($"Login attempt for {loginDto.Email}");
             var result = await _authenticationService.LoginUserAsync(loginDto);
             return StatusCode(result.StatusCode, result);
         }
@@ -64,6 +73,7 @@ namespace church_mgt_api.Controllers
         {
             try
             {
+                _logger.Information($"SendMail Attempt for {model.ToEmail}");
                 var result = await _mailService.SendEmailAsync(model);
                 return Ok(result);
             }
@@ -80,6 +90,7 @@ namespace church_mgt_api.Controllers
         [Route("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(string email)
         {
+            _logger.Information($"Forgot password attempt for {email}");
             var result = await _authenticationService.ForgotPasswordAsync(email);
             return StatusCode(result.StatusCode, result);
         }
@@ -89,6 +100,7 @@ namespace church_mgt_api.Controllers
         [Route("resetpassword")]
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordDto model)
         {
+            _logger.Information($"Reset password attempt for {model.Email}");
             var result = await _authenticationService.ResetPasswordAsync(model);
             return StatusCode(result.StatusCode, result);
         }

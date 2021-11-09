@@ -26,17 +26,12 @@ namespace church_mgt_core.repositories.implementations
         public async Task<IEnumerable<Payment>> GetAllPaymentsAsync()
         {
             return await _context.Payments
-                .Include(x => x.PaymentType)
-                .Include(y => y.AppUser)
-                    .ThenInclude(z => z.Departments)
                 .ToListAsync();
         }
 
         public async Task<Payment> GetPaymentByIdAsync(string paymentId)
         {
             return await _context.Payments
-                .Include(x => x.PaymentType)
-                .Include(y => y.AppUser)
                 .FirstOrDefaultAsync(x => x.Id == paymentId);
         }
 
@@ -44,7 +39,6 @@ namespace church_mgt_core.repositories.implementations
         {
             var payment = await _context.Payments
                 .Where(x => x.PaymentReference == reference)
-                .Include(y => y.PaymentType)
                 .FirstOrDefaultAsync();
 
             return payment;
@@ -54,6 +48,12 @@ namespace church_mgt_core.repositories.implementations
         {
             _context.Payments.Update(payment);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Payment> GetPaymentByPaymentType(string paymentType)
+        {
+            return await _context.Payments
+                .FirstOrDefaultAsync(x => x.PaymentType == paymentType);
         }
     }
 }
