@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace church_mgt_api
 {
@@ -83,7 +84,8 @@ namespace church_mgt_api
             // configure swagger
             services.AddSwagger();
 
-            
+            // register serilog
+            services.AddSingleton(Log.Logger);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
