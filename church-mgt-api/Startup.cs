@@ -96,8 +96,6 @@ namespace church_mgt_api
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "church_mgt_api v1"));
 
-            app.UseSerilogRequestLogging();
-
             // use church mgt seeder class
             ChurchMgtSeeder.SeedData(dbContext, userManager, roleManager).GetAwaiter().GetResult();
 
