@@ -34,7 +34,7 @@ namespace church_mgt_core.services.implementations
                 return Response<string>.Fail("User not found");
 
 
-            var userComment = new Comment { Id = Guid.NewGuid().ToString(), Comments = comment, CreatedAt = DateTime.UtcNow, UserId = userId };
+            var userComment = new Comment { Id = Guid.NewGuid().ToString(), Comments = comment, CreatedAt = DateTime.UtcNow, AppUserId = userId };
             await _unitOfWork.Comment.AddAsync(userComment);
             await _unitOfWork.CompleteAsync();
 

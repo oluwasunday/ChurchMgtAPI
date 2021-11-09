@@ -8,7 +8,7 @@ namespace church_mgt_models
 {
     public class Support : BasicEntity
     {
-        public string UserId { get; set; }
+        public string AppUserId { get; set; }
         public string Suggestion {  get; set; }
         public bool IsOpen { get; set; }
     }

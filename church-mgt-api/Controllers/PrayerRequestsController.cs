@@ -21,11 +21,11 @@ namespace church_mgt_api.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger _logger;
 
-        public PrayerRequestsController(IPrayerRequestService prayerRequestService, UserManager<AppUser> userManager, ILogger _logger)
+        public PrayerRequestsController(IPrayerRequestService prayerRequestService, UserManager<AppUser> userManager, ILogger logger)
         {
             _prayerRequestService = prayerRequestService;
             _userManager = userManager;
-            this._logger = _logger;
+            _logger = logger;
         }
 
         [HttpGet]
