@@ -39,6 +39,7 @@ namespace church_mgt_core.services.implementations
             _emailService = emailService;
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
+            _logger = logger;
         }
 
         public async Task<Response<RegisterResponseDto>> Register(RegisterDto registerDto)
