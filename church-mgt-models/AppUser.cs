@@ -24,7 +24,7 @@ namespace church_mgt_models
         public string Avatar { get; set; } = "default.jpg";
         public string PublicId { get; set; } 
 
-        public ICollection<Testimony> Testimonies { get; set; }
+
         public ICollection<Department> Departments { get; set; }
         public ICollection<Support> Supports { get; set; }
         public ICollection<PrayerRequest> PrayerRequests { get; set; }

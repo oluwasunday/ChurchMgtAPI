@@ -8,7 +8,7 @@ namespace church_mgt_core.services.interfaces
 {
     public interface ITestimonyService
     {
-        Task<Response<Testimony>> AddTestimony(string memberId, AddTestimonyDto testimonyDto);
+        Task<Response<Testimony>> AddTestimony(AddTestimonyDto testimonyDto);
         Task<Response<string>> DeleteTestimonyById(string testimonyId);
         Response<IEnumerable<Testimony>> GetTestimonies();
         Task<Response<Testimony>> GetTestimonyById(string testimonyId);

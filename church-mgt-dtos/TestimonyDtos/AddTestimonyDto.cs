@@ -9,7 +9,11 @@ namespace church_mgt_dtos.TestimonyDtos
 {
     public class AddTestimonyDto
     {
-        [Required(ErrorMessage = "Testimony field is required")]
+        [Required(ErrorMessage = "Please enter your name")]
+        public string FullName { get; set; }
+        [Required(ErrorMessage = "Please enter your address")]
+        public string Address { get; set; }
+        [Required]
         public string YourTestimony { get; set; }
     }
 }

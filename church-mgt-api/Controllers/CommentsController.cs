@@ -27,7 +27,7 @@ namespace church_mgt_api.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> AddComment(string comment)
         {
             var userInfo = await _userManager.GetUserAsync(User);
