@@ -13,18 +13,22 @@ using System.Threading.Tasks;
 using church_mgt_core.services.interfaces;
 using church_mgt_dtos.Dtos;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 namespace church_mgt_core.services.implementations
 {
     public class EmailService : IEmailService
     {
         private readonly MailSettings _mailSettings;
-        public EmailService(IOptions<MailSettings> options)
+        private readonly ILogger _logger;
+        public EmailService(IOptions<MailSettings> options, ILogger logger)
         {
             _mailSettings = options.Value;
+            _logger = logger;
         }
         public async Task<Response<string>> SendEmailAsync(MailRequestDto requestDto)
         {
+            _logger.Information("Registration sending mail");
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
             email.To.Add(MailboxAddress.Parse(requestDto.ToEmail));
@@ -47,6 +51,8 @@ namespace church_mgt_core.services.implementations
                     }
                 }
             }
+
+            _logger.Information("Sending mail");
             builder.HtmlBody = requestDto.Body;
             email.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
