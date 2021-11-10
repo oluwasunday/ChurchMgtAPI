@@ -76,7 +76,10 @@ namespace church_mgt_core.services.implementations
                 {
                     ToEmail = user.Email,
                     Subject = "Confirm your email",
-                    Body = $"<h1>Welcome to RCCG Solid Rock Parish</h1>\n<p>Pls confirm your email by <a href='{url}'>clicking here</a></p>",
+                    Body = 
+                    $"<div style='margin:5px auto; width: 90%; border:1px solid #ccc; text-align:center; padding:25px; background-color:#eee; border-radius:5px;'>" +
+                    $"<img align = 'center' width = '15%' style = 'display: block; margin-left: auto; margin-right: auto;' src = 'https://res.cloudinary.com/dkoncept/image/upload/v1636499914/ChurchMgt/rccg-solid-rock/rccg-solidrock-logo_zhg1an.png' alt = 'rccg solid rock ogun 5' />" +
+                    $"<h1 align = 'center'> Click the button below to complete your registration </h1><a href = {url} style = 'padding:15px; background:#00f; color:#fff;  border-radius: 5px; text-decoration:none;'> CONFIRM EMAIL </a></ div > ",
                     Attachments = null
                 };
 
