@@ -9,6 +9,7 @@ namespace church_mgt_models
     public class Payment
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string FullName { get; set; }
         public string PaymentReference { get; set; }
         public decimal Amount { get; set; }
         public bool Status { get; set; }
