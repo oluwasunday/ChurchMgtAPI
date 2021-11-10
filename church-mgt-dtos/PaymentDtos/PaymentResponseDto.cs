@@ -14,6 +14,6 @@ namespace church_mgt_dtos.PaymentDtos
         public bool Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public string PaymentType { get; set; }
-        public string AppUser { get; set; }
+        public string FullName { get; set; }
     }
 }
