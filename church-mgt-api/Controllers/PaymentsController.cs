@@ -77,7 +77,7 @@ namespace church_mgt_api.Controllers
         {
             _logger.Information($"Attempt to verify payment for reference {reference}");
             var result = await _paymentService.VerifyPaymentAsync(reference);
-            return Redirect(_configuration["VerifyRedirectUrl"]);
+            return Redirect("https://rccgsolidrockogun5.herokuapp.com/OnlineGiving/SuccessPayment/");
         }
 
 
