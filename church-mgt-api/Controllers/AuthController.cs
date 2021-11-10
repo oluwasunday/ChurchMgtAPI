@@ -2,8 +2,10 @@
 using church_mgt_dtos;
 using church_mgt_dtos.AuthenticationDtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -18,17 +20,20 @@ namespace church_mgt_api.Controllers
         private readonly IEmailService _mailService;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly IWebHostEnvironment _env;
 
         public AuthController(
             IAuthenticationService authenticationService, 
             IEmailService mailService, 
             IConfiguration configuration, 
-            ILogger logger)
+            ILogger logger,
+            IWebHostEnvironment env)
         {
             _authenticationService = authenticationService;
             _mailService = mailService;
             _configuration = configuration;
             _logger = logger;
+            _env = env;
         }
 
         [HttpPost("register")]
@@ -54,8 +59,9 @@ namespace church_mgt_api.Controllers
         {
             try
             {
+                string baseUrl = _env.IsProduction() ? _configuration["HerokuUrl"] : _configuration["BaseUrl"];
                 var result = await _authenticationService.ConfirmEmailAsync(email, token);
-                return Redirect($"{_configuration["BaseUrl"]}confirmemail.html");
+                return Redirect($"{baseUrl}confirmemail.html");
             }
             catch (Exception)
             {
