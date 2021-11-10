@@ -57,7 +57,7 @@ namespace church_mgt_core.services.implementations
                 Email = pay.Email,
                 Reference = pay.PaymentReference,
                 Currency = "NGN",
-                CallbackUrl = $"{baseUrl}api/Payments/VerifyPayment"//?reference={pay.PaymentReference}"
+                CallbackUrl = $"{baseUrl}api/Payments/VerifyPayment"
             };
 
             _logger.Information($"Attempt making payment for {payment.Email}");

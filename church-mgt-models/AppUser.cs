@@ -17,8 +17,8 @@ namespace church_mgt_models
         public string Gender { get; set; }
         public bool IsBornAgain { get; set; }
         public DateTime DOB { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public string MaritalStatus { get; set; }
         public string Occupation { get; set; }
         public string Avatar { get; set; } = "default.jpg";
