@@ -5,7 +5,9 @@ using church_mgt_dtos.Dtos;
 using church_mgt_dtos.PaymentDtos;
 using church_mgt_models;
 using hotel_booking_utilities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using PayStack.Net;
 using Serilog;
 using System;
@@ -22,14 +24,22 @@ namespace church_mgt_core.services.implementations
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
+        private readonly IWebHostEnvironment _env;
+
         private PayStackApi PayStack { get; set; }
          
-        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IConfiguration configuration, ILogger logger)
+        public PaymentService(
+            IPaymentRepository paymentRepository, 
+            IMapper mapper, 
+            IConfiguration configuration, 
+            ILogger logger,
+            IWebHostEnvironment env)
         {
             _paymentRepository = paymentRepository;
             _mapper = mapper;
             _configuration = configuration;
             _logger = logger;
+            _env = env;
             PayStack = new PayStackApi(_configuration["Payment:PaystackSK"]);
         }
 
@@ -39,13 +49,15 @@ namespace church_mgt_core.services.implementations
             var pay = _mapper.Map<Payment>(payment);
             pay.PaymentReference = $"{ReferenceGenerator.GetInitials()}-{ReferenceGenerator.Generate()}";
 
+            string baseUrl = _env.IsProduction() ? _configuration["HerokuUrl"] : _configuration["BaseUrl"];
+
             TransactionInitializeRequest trxRequest = new()
             {
                 AmountInKobo = (int)pay.Amount * 100,
                 Email = pay.Email,
                 Reference = pay.PaymentReference,
                 Currency = "NGN",
-                CallbackUrl = $"{_configuration["BaseUrl"]}api/Payments/VerifyPayment"//?reference={pay.PaymentReference}"
+                CallbackUrl = $"{baseUrl}api/Payments/VerifyPayment"//?reference={pay.PaymentReference}"
             };
 
             _logger.Information($"Attempt making payment for {payment.Email}");
