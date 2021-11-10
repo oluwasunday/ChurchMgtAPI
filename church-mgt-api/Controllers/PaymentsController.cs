@@ -67,7 +67,7 @@ namespace church_mgt_api.Controllers
             var result = await _paymentService.MakePaymentAsync(payment);
 
             if (result.Succeeded)
-                return StatusCode(result.StatusCode, result);
+                return StatusCode(result.StatusCode, result.Data.Data);
 
             return StatusCode(result.StatusCode, result.Data.Message);            
         }
@@ -77,7 +77,7 @@ namespace church_mgt_api.Controllers
         {
             _logger.Information($"Attempt to verify payment for reference {reference}");
             var result = await _paymentService.VerifyPaymentAsync(reference);
-            return StatusCode(result.StatusCode, result);
+            return Redirect(_configuration["VerifyRedirectUrl"]);
         }
 
 
