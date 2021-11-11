@@ -9,11 +9,11 @@ namespace church_mgt_models
 {
     public class Testimony : BasicEntity
     {
-        [Required(ErrorMessage = "Please enter your name")]
         public string FullName { get; set; }
-        [Required(ErrorMessage = "Please enter your address")]
+        public string Sex { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        [Required]
         public string YourTestimony { get; set; }
     }
 }
